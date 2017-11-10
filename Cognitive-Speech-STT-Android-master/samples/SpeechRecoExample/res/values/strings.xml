@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources xmlns:tools="http://schemas.android.com/tools" tools:ignore="TypographyDashes">
+    <!-- Please refer to http://oxford-portal.azurewebsites.net/doc/general/subscription-key-mgmt to get your subscription key -->
+    <!-- If you have one subscription key, you can add it here to use the service -->
+    <string name="primaryKey">0c3d7d745fe64c67a7860476a452a803</string>
+    <string name="add_subscription_key_tip_title">Subscription Key is Needed</string>
+    <string name="add_subscription_key_tip">Please put your subscription key to source file \"app/res/values/strings.xml\" to enable Speech API calls.</string>
+
+    <!-- 
+    Enter an optional authentication Uri such as: 
+    https://westus.api.cognitive.microsoft.com/sts/v1.0/issuetoken
+    -->
+    <string name="authenticationUri">https://westus.api.cognitive.microsoft.com/sts/v1.0/issuetoken</string>
+    
+    <string name="luisAppID">testdrive-deploy</string>
+    <string name="luisSubscriptionID">43b6f110-7d83-4d27-87f5-979e879c2df4</string>
+
+    <string name="app_name">sample deployment for test drive in Chinese</string>
+    <string name="action_settings">Settings</string>
+</resources>
