@@ -11,10 +11,10 @@
     https://westus.api.cognitive.microsoft.com/sts/v1.0/issuetoken
     -->
     <string name="authenticationUri">https://westus.api.cognitive.microsoft.com/sts/v1.0/issuetoken</string>
-    
-    <string name="luisAppID">testdrive-deploy</string>
-    <string name="luisSubscriptionID">43b6f110-7d83-4d27-87f5-979e879c2df4</string>
 
-    <string name="app_name">sample deployment for test drive in Chinese</string>
+    <string name="luisAppID">26655627-1010-40c2-9f1d-04fa9851c054</string>
+    <string name="luisSubscriptionID">90697c6c-fdd1-4f15-8425-f57a27594204</string>
+
+    <string name="app_name">SAIC</string>
     <string name="action_settings">Settings</string>
 </resources>

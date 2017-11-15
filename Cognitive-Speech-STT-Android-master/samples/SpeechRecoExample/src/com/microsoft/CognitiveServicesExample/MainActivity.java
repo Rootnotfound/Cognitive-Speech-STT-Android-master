@@ -34,8 +34,10 @@ package com.microsoft.CognitiveServicesExample;
 
 import android.app.Activity;
 import android.app.AlertDialog;
+import android.content.Intent;
 import android.os.AsyncTask;
 import android.os.Bundle;
+import android.speech.RecognizerResultsIntent;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.widget.Button;
@@ -52,6 +54,9 @@ import com.microsoft.cognitiveservices.speechrecognition.RecognitionStatus;
 import com.microsoft.cognitiveservices.speechrecognition.SpeechRecognitionMode;
 import com.microsoft.cognitiveservices.speechrecognition.SpeechRecognitionServiceFactory;
 import java.io.InputStream;
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.List;
 import java.util.concurrent.TimeUnit;
 
 public class MainActivity extends Activity implements ISpeechRecognitionServerEvents
@@ -61,9 +66,23 @@ public class MainActivity extends Activity implements ISpeechRecognitionServerEv
     MicrophoneRecognitionClient micClient = null;
     FinalResponseStatus isReceivedResponse = FinalResponseStatus.NotReceived;
     EditText _logText;
-    RadioGroup _radioGroup;
+    //RadioGroup _radioGroup;
     Button _buttonSelectMode;
     Button _startButton;
+    Button _stop;
+    Button _comfort;
+    Button _randh;
+    Button _bottom;
+    Button _pti;
+    Button _nvh;
+    Button _dqtcu;
+    Button _dqems;
+    Button _dqswitch;
+    Button _hvac;
+    Button _back;
+    Button _hm;
+    Button _function;
+    public static final String EXTRA_MESSAGE = "com.microsoft.CognitiveServicesExample.MESSAGE";
 
     public enum FinalResponseStatus { NotReceived, OK, Timeout }
 
@@ -93,27 +112,28 @@ public class MainActivity extends Activity implements ISpeechRecognitionServerEv
      * Gets a value indicating whether or not to use the microphone.
      * @return true if [use microphone]; otherwise, false.
      */
+
     private Boolean getUseMicrophone() {
-        int id = this._radioGroup.getCheckedRadioButtonId();
-        return id == R.id.micIntentRadioButton ||
-                id == R.id.micDictationRadioButton ||
-                id == (R.id.micRadioButton - 1);
+        //int id = this._radioGroup.getCheckedRadioButtonId();
+        return true;
     }
 
     /**
      * Gets a value indicating whether LUIS results are desired.
      * @return true if LUIS results are to be returned otherwise, false.
      */
+
     private Boolean getWantIntent() {
-        int id = this._radioGroup.getCheckedRadioButtonId();
-        return id == R.id.dataShortIntentRadioButton ||
-                id == R.id.micIntentRadioButton;
+        //int id = this._radioGroup.getCheckedRadioButtonId();
+        return true;
     }
 
     /**
      * Gets the current speech recognition mode.
      * @return The speech recognition mode.
      */
+
+   /*
     private SpeechRecognitionMode getMode() {
         int id = this._radioGroup.getCheckedRadioButtonId();
         if (id == R.id.micDictationRadioButton ||
@@ -123,7 +143,7 @@ public class MainActivity extends Activity implements ISpeechRecognitionServerEv
 
         return SpeechRecognitionMode.ShortPhrase;
     }
-
+    */
     /**
      * Gets the default locale.
      * @return The default locale.
@@ -161,10 +181,26 @@ public class MainActivity extends Activity implements ISpeechRecognitionServerEv
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
+        reload();
+
         this._logText = (EditText) findViewById(R.id.editText1);
-        this._radioGroup = (RadioGroup)findViewById(R.id.groupMode);
-        this._buttonSelectMode = (Button)findViewById(R.id.buttonSelectMode);
-        this._startButton = (Button) findViewById(R.id.button1);
+        //this._radioGroup = (RadioGroup)findViewById(R.id.groupMode);
+        //this._radioGroup.setVisibility(View.INVISIBLE);
+        //this._buttonSelectMode = (Button)findViewById(R.id.buttonSelectMode);
+        //this._startButton = (Button) findViewById(R.id.button1);
+        this._stop = (Button) findViewById(R.id.button5);
+        this._comfort = (Button) findViewById(R.id.button6);
+        this._randh = (Button) findViewById(R.id.button7);
+        this._bottom = (Button) findViewById(R.id.button8);
+        this._pti = (Button) findViewById(R.id.button10);
+        this._nvh = (Button) findViewById(R.id.button11);
+        this._dqtcu = (Button) findViewById(R.id.button12);
+        this._dqems = (Button) findViewById(R.id.button13);
+        this._dqswitch = (Button) findViewById(R.id.button14);
+        this._hvac = (Button) findViewById(R.id.button15);
+        this._back = (Button) findViewById(R.id.button16);
+        this._hm = (Button) findViewById(R.id.button17);
+        this._function = (Button) findViewById(R.id.button18);
 
         if (getString(R.string.primaryKey).startsWith("Please")) {
             new AlertDialog.Builder(this)
@@ -175,6 +211,7 @@ public class MainActivity extends Activity implements ISpeechRecognitionServerEv
         }
 
         // setup the buttons
+        /*
         final MainActivity This = this;
         this._startButton.setOnClickListener(new OnClickListener() {
             @Override
@@ -183,12 +220,88 @@ public class MainActivity extends Activity implements ISpeechRecognitionServerEv
             }
         });
 
-     /*   this._buttonSelectMode.setOnClickListener(new OnClickListener() {
+
+       this._buttonSelectMode.setOnClickListener(new OnClickListener() {
             @Override
             public void onClick(View arg0) {
-                This.ShowMenu(This._radioGroup.getVisibility() == View.INVISIBLE);
+                reset_Everything();
             }
         });
+        */
+
+        this._stop.setOnClickListener(new OnClickListener() {
+            @Override
+            public void onClick(View arg0) {
+                NextPage();
+            }
+        });
+        this._randh.setOnClickListener(new OnClickListener() {
+            @Override
+            public void onClick(View arg0) {
+                NextPage();
+            }
+        });
+        this._bottom.setOnClickListener(new OnClickListener() {
+            @Override
+            public void onClick(View arg0) {
+                NextPage();
+            }
+        });
+        this._pti.setOnClickListener(new OnClickListener() {
+            @Override
+            public void onClick(View arg0) {
+                NextPage();
+            }
+        });
+        this._nvh.setOnClickListener(new OnClickListener() {
+            @Override
+            public void onClick(View arg0) {
+                NextPage();
+            }
+        });
+        this._dqtcu.setOnClickListener(new OnClickListener() {
+            @Override
+            public void onClick(View arg0) {
+                NextPage();
+            }
+        });
+        this._dqems.setOnClickListener(new OnClickListener() {
+            @Override
+            public void onClick(View arg0) {
+                NextPage();
+            }
+        });
+        this._dqswitch.setOnClickListener(new OnClickListener() {
+            @Override
+            public void onClick(View arg0) {
+                NextPage();
+            }
+        });
+        this._hvac.setOnClickListener(new OnClickListener() {
+            @Override
+            public void onClick(View arg0) {
+                NextPage();
+            }
+        });
+        this._back.setOnClickListener(new OnClickListener() {
+            @Override
+            public void onClick(View arg0) {
+                NextPage();
+            }
+        });
+        this._hm.setOnClickListener(new OnClickListener() {
+            @Override
+            public void onClick(View arg0) {
+                NextPage();
+            }
+        });
+        this._function.setOnClickListener(new OnClickListener() {
+            @Override
+            public void onClick(View arg0) {
+                NextPage();
+            }
+        });
+       /*
 
         this._radioGroup.setOnCheckedChangeListener(new RadioGroup.OnCheckedChangeListener() {
             @Override
@@ -206,26 +319,31 @@ public class MainActivity extends Activity implements ISpeechRecognitionServerEv
             //this._radioGroup.setVisibility(View.VISIBLE);
             this._logText.setVisibility(View.INVISIBLE);
         } else {
-            this._radioGroup.setVisibility(View.INVISIBLE);
+            //this._radioGroup.setVisibility(View.INVISIBLE);
             this._logText.setText("");
             this._logText.setVisibility(View.VISIBLE);
         }
+    }
+
+    private void NextPage(){
+        Intent intent = new Intent(this, Main2Activity.class);
+        startActivity(intent);
     }
     /**
      * Handles the Click event of the _startButton control.
      */
     private void StartButton_Click(View arg0) {
         this._startButton.setEnabled(false);
-        this._radioGroup.setEnabled(false);
+        //this._radioGroup.setEnabled(false);
 
-        this.m_waitSeconds = this.getMode() == SpeechRecognitionMode.ShortPhrase ? 20 : 200;
+        //this.m_waitSeconds = this.getMode() == SpeechRecognitionMode.ShortPhrase ? 20 : 200;
 
         this.ShowMenu(false);
 
         this.LogRecognitionStart();
 
-        //if (this.getUseMicrophone()) {
-            //if (this.micClient == null) {
+        if (this.getUseMicrophone()) {
+            if (this.micClient == null) {
                 if (this.getWantIntent()) {
                     this.WriteLine("--- Start microphone dictation with Intent detection ----");
 
@@ -235,8 +353,10 @@ public class MainActivity extends Activity implements ISpeechRecognitionServerEv
                                     this.getDefaultLocale(),
                                     this,
                                     this.getPrimaryKey(),
+                                    this.getPrimaryKey(),
+                                    this.getLuisAppId(),
                                     this.getLuisSubscriptionID(),
-                                    "https://43b6f1107d834d2787f5979e879c2df4.api.cris.ai/ws/cris/speech/recognize/continuous");
+                                    "https://7b59cc355dd74957846e3b78a47946d5.api.cris.ai/ws/cris/speech/recognize/continuous");
                 }
                 else
                 {
@@ -247,16 +367,16 @@ public class MainActivity extends Activity implements ISpeechRecognitionServerEv
                             this,
                             this.getPrimaryKey(),
                             this.getPrimaryKey(),
-                            "https://9fdc89a0c1ee43c98a5c730225024f1b.api.cris.ai/ws/cris/speech/recognize/continuous");
+                            "https://7b59cc355dd74957846e3b78a47946d5.api.cris.ai/ws/cris/speech/recognize/continuous");
                 }
 
                 this.micClient.setAuthenticationUri(this.getAuthenticationUri());
-            //}
+            }
 
             this.micClient.startMicAndRecognition();
-        //}
-     /*   else
-        {
+        }
+    /*else
+        //{
             if (null == this.dataClient) {
                 if (this.getWantIntent()) {
                     this.dataClient =
@@ -280,8 +400,8 @@ public class MainActivity extends Activity implements ISpeechRecognitionServerEv
             }
 
             this.SendAudioHelper((this.getMode() == SpeechRecognitionMode.ShortPhrase) ? this.getShortWaveFile() : this.getLongWaveFile());
-        }
-        */
+        }*/
+
     }
 
     /**
@@ -291,15 +411,16 @@ public class MainActivity extends Activity implements ISpeechRecognitionServerEv
         String recoSource;
         if (this.getUseMicrophone()) {
             recoSource = "microphone";
-        } else if (this.getMode() == SpeechRecognitionMode.ShortPhrase) {
+        } /*else if (this.getMode() == SpeechRecognitionMode.ShortPhrase) {
             recoSource = "short wav file";
         } else {
             recoSource = "long wav file";
-        }
+        }*/
 
-        this.WriteLine("\n--- Start speech recognition using " + recoSource + " with " + this.getMode() + " mode in " + this.getDefaultLocale() + " language ----\n\n");
+        //this.WriteLine("\n--- Start speech recognition using Chinese");
     }
 
+    /*
     private void SendAudioHelper(String filename) {
         RecognitionTask doDataReco = new RecognitionTask(this.dataClient, this.getMode(), filename);
         try
@@ -312,12 +433,14 @@ public class MainActivity extends Activity implements ISpeechRecognitionServerEv
             isReceivedResponse = FinalResponseStatus.Timeout;
         }
     }
+    */
 
     public void onFinalResponseReceived(final RecognitionResult response) {
-        boolean isFinalDicationMessage = this.getMode() == SpeechRecognitionMode.LongDictation &&
-                (response.RecognitionStatus == RecognitionStatus.EndOfDictation ||
+        String message = new String();
+        ArrayList<String> luisIntent = new ArrayList<String>(Arrays.asList("制动。", "座椅舒适性。", "R&H.", "底盘。", "PTI.", "NVH.", "DQ-TCU.", "DQ-EMS.", "DQ-换挡。", "HVAC.", "背光。", "人机。", "功能。"));
+        boolean isFinalDicationMessage = (response.RecognitionStatus == RecognitionStatus.EndOfDictation ||
                         response.RecognitionStatus == RecognitionStatus.DictationEndSilenceTimeout);
-        if (null != this.micClient && this.getUseMicrophone() && ((this.getMode() == SpeechRecognitionMode.ShortPhrase) || isFinalDicationMessage)) {
+        if (null != this.micClient && this.getUseMicrophone() && (isFinalDicationMessage)) {
             // we got the final result, so it we can end the mic reco.  No need to do this
             // for dataReco, since we already called endAudio() on it as soon as we were done
             // sending all the data.
@@ -332,11 +455,15 @@ public class MainActivity extends Activity implements ISpeechRecognitionServerEv
         if (!isFinalDicationMessage) {
             this.WriteLine("********* Final n-BEST Results *********");
             for (int i = 0; i < response.Results.length; i++) {
-                this.WriteLine("[" + i + "]" + " Confidence=" + response.Results[i].Confidence +
-                        " Text=\"" + response.Results[i].DisplayText + "\"");
+                this.WriteLine(/*"[" + i + "]" + " Confidence=" + response.Results[i].Confidence +
+                        " Text=\"" + */response.Results[i].DisplayText + "\"");
+                message = response.Results[0].DisplayText;
             }
-
-            this.WriteLine();
+            if(luisIntent.contains(message)) {
+                Intent intent = new Intent(this, Main2Activity.class);
+                intent.putExtra(EXTRA_MESSAGE, message);
+                startActivity(intent);
+            }
         }
     }
 
@@ -350,9 +477,9 @@ public class MainActivity extends Activity implements ISpeechRecognitionServerEv
     }
 
     public void onPartialResponseReceived(final String response) {
-        this.WriteLine("--- Partial result received by onPartialResponseReceived() ---");
-        this.WriteLine(response);
-        this.WriteLine();
+        //this.WriteLine("--- Partial result received by onPartialResponseReceived() ---");
+        //this.WriteLine(response);
+        //this.WriteLine();
     }
 
     public void onError(final int errorCode, final String response) {
@@ -368,8 +495,8 @@ public class MainActivity extends Activity implements ISpeechRecognitionServerEv
      * @param recording The current recording state
      */
     public void onAudioEvent(boolean recording) {
-        this.WriteLine("--- Microphone status change received by onAudioEvent() ---");
-        this.WriteLine("********* Microphone status: " + recording + " *********");
+        //this.WriteLine("--- Microphone status change received by onAudioEvent() ---");
+        //this.WriteLine("********* Microphone status: " + recording + " *********");
         if (recording) {
             this.WriteLine("Please start speaking.");
         }
@@ -401,6 +528,7 @@ public class MainActivity extends Activity implements ISpeechRecognitionServerEv
      * @param rGroup The radio grouping.
      * @param checkedId The checkedId.
      */
+
     private void RadioButton_Click(RadioGroup rGroup, int checkedId) {
         // Reset everything
         if (this.micClient != null) {
@@ -425,6 +553,32 @@ public class MainActivity extends Activity implements ISpeechRecognitionServerEv
         this.ShowMenu(false);
         this._startButton.setEnabled(true);
     }
+
+    private void reset_Everything(){
+        if (this.micClient != null) {
+            this.micClient.endMicAndRecognition();
+            try {
+                this.micClient.finalize();
+            } catch (Throwable throwable) {
+                throwable.printStackTrace();
+            }
+            this.micClient = null;
+        }
+    }
+
+    private void reload(){
+         getIntent();
+    if (this.micClient != null) {
+        this.micClient.endMicAndRecognition();
+        try {
+            this.micClient.finalize();
+        } catch (Throwable throwable) {
+            throwable.printStackTrace();
+        }
+        this.micClient = null;
+    }
+    }
+
 
     /*
      * Speech recognition with data (for example from a file or audio source).  
