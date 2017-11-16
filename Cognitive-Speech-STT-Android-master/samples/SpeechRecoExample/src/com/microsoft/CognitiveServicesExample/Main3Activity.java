@@ -31,6 +31,9 @@ import java.util.concurrent.TimeUnit;
 public class Main3Activity extends Activity implements ISpeechRecognitionServerEvents {
 
     int m_waitSeconds = 0;
+    String message = new String();
+    String result = new String();
+    int flag = 0;
     DataRecognitionClient dataClient = null;
     MicrophoneRecognitionClient micClient = null;
     FinalResponseStatus isReceivedResponse = FinalResponseStatus.NotReceived;
@@ -252,7 +255,6 @@ public class Main3Activity extends Activity implements ISpeechRecognitionServerE
     }
 
     public void onFinalResponseReceived(final RecognitionResult response) {
-        String message = new String();
         ArrayList<String> luisIntent = new ArrayList<String>(Arrays.asList("提交。", "完成。", "结束。", "搞定。", "Ok." ));
         ArrayList<String> luisCancel = new ArrayList<String>(Arrays.asList("退出。", "后退。", "返回。", "取消。"));
         String yes = "是。";
@@ -272,12 +274,47 @@ public class Main3Activity extends Activity implements ISpeechRecognitionServerE
         }
 
         if (!isFinalDicationMessage) {
-            this.WriteLine("********* 您说的是 *********");
-            for (int i = 0; i < response.Results.length; i++) {
-                this.WriteLine(/*"[" + i + "]" + " Confidence=" + response.Results[i].Confidence +
-                        " Text=\"" + */response.Results[i].DisplayText + "\"【是】，【不是】");
-                message = response.Results[0].DisplayText;
-            }
+                //int flag = 0;
+                if(response.Results[0].DisplayText.equals(yes)){
+                    this.WriteLine("请继续");
+                    //flag = 1;
+                    result = result + message;
+                    TextView textView = (TextView) findViewById(R.id.editText3);
+                    textView.setText(result);
+                }
+                else if(response.Results[0].DisplayText.equals(no)){
+                    _logText.setText("\n--- Start speech recognition using Chinese");
+                    this.WriteLine("Please start speaking.");
+                    flag = 0;
+                }
+                else {
+                    if(flag == 0)
+                    {
+                        this.WriteLine("********* 您说的是 *********");
+                        flag = 1;
+                    }
+                    this.WriteLine(/*"[" + i + "]" + " Confidence=" + response.Results[i].Confidence +
+                        " Text=\"" + */response.Results[0].DisplayText + "\n【是】，【不是】？");
+                    message = response.Results[0].DisplayText;
+                    //result = result + message;
+                    /*if(flag == 1) {
+                        result = result + message;
+                        TextView textView = (TextView) findViewById(R.id.editText3);
+                        textView.setText(result);
+                    }*/
+                }
+                if(luisIntent.contains(message)) {
+                    Intent intent = new Intent(this, MainActivity.class);
+                    //intent.putExtra(EXTRA_MESSAGE, newMessage + "请打分");
+                    this.micClient.endMicAndRecognition();
+                    startActivity(intent);
+                }
+                if(luisCancel.contains(message)) {
+                    Intent intent = new Intent(this, Main2Activity.class);
+                    this.micClient.endMicAndRecognition();
+                    startActivity(intent);
+                }
+            /*
             if(luisIntent.contains(message)) {
                 Intent intent = new Intent(this, MainActivity.class);
                 //intent.putExtra(EXTRA_MESSAGE, newMessage + "请打分");
@@ -296,6 +333,7 @@ public class Main3Activity extends Activity implements ISpeechRecognitionServerE
                 _logText.setText("\n--- Start speech recognition using Chinese");
                 this.WriteLine("Please start speaking.");
             }
+            */
         }
     }
 

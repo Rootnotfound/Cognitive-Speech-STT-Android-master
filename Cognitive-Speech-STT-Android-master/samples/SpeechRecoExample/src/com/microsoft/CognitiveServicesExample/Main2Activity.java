@@ -31,6 +31,7 @@ import java.util.concurrent.TimeUnit;
 public class Main2Activity extends Activity implements ISpeechRecognitionServerEvents {
 
     int m_waitSeconds = 0;
+    int flag = 0;
     DataRecognitionClient dataClient = null;
     MicrophoneRecognitionClient micClient = null;
     FinalResponseStatus isReceivedResponse = FinalResponseStatus.NotReceived;
@@ -289,12 +290,32 @@ public class Main2Activity extends Activity implements ISpeechRecognitionServerE
         }
 
         if (!isFinalDicationMessage) {
-            this.WriteLine("********* 您的评分是 *********");
+            //this.WriteLine("********* 您的评分是 *********");
             for (int i = 0; i < response.Results.length; i++) {
-                this.WriteLine(/*"[" + i + "]" + " Confidence=" + response.Results[i].Confidence +
-                        " Text=\"" + */response.Results[i].DisplayText + "\"是否提交？");
-                message = response.Results[0].DisplayText;
+                if(luisIntent.contains(response.Results[0].DisplayText)) {
+                    this.WriteLine(response.Results[0].DisplayText);
+                    Intent intent = new Intent(this, Main3Activity.class);
+                    //intent.putExtra(EXTRA_MESSAGE, newMessage + "请打分");
+                    this.micClient.endMicAndRecognition();
+                    startActivity(intent);
+                }
+                else if(luisCancel.contains(response.Results[0].DisplayText)) {
+                    _logText.setText("\n--- Start speech recognition using Chinese");
+                    this.WriteLine("Please start speaking.");
+                    flag = 0;
+                }
+                else {
+                    if(flag == 0)
+                    {
+                        this.WriteLine("********* 您的评分是 *********");
+                        flag = 1;
+                    }
+                    this.WriteLine(/*"[" + i + "]" + " Confidence=" + response.Results[i].Confidence +
+                        " Text=\"" + */response.Results[i].DisplayText + "\n【提交】，【取消】？");
+                    message = response.Results[0].DisplayText;
+                }
             }
+            /*
             if(luisIntent.contains(message)) {
                 Intent intent = new Intent(this, Main3Activity.class);
                 //intent.putExtra(EXTRA_MESSAGE, newMessage + "请打分");
@@ -306,6 +327,7 @@ public class Main2Activity extends Activity implements ISpeechRecognitionServerE
                 this.micClient.endMicAndRecognition();
                 startActivity(intent);
             }
+            */
         }
     }
 

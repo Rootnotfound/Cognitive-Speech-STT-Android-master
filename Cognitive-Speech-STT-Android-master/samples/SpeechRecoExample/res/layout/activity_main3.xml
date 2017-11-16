@@ -35,11 +35,10 @@
     <EditText
         android:id="@+id/editText2"
         android:layout_width="fill_parent"
-        android:layout_height="fill_parent"
+        android:layout_height="300dp"
         android:layout_alignParentLeft="true"
         android:layout_alignParentStart="true"
         android:layout_below="@+id/button2"
-        android:layout_marginTop="18dp"
         android:ems="10"
         android:inputType="textMultiLine|textNoSuggestions"
         tools:layout_editor_absoluteX="81dp"
@@ -55,4 +54,15 @@
         android:layout_marginEnd="11dp"
         android:layout_marginRight="11dp"
         android:text="Reset" />
+
+    <EditText
+        android:id="@+id/editText3"
+        android:layout_width="360dp"
+        android:layout_height="fill_parent"
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentStart="true"
+        android:layout_below="@+id/editText2"
+        android:layout_marginTop="25dp"
+        android:ems="10"
+        android:inputType="textMultiLine|textNoSuggestions" />
 </RelativeLayout>
